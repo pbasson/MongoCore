@@ -10,8 +10,6 @@ builder.Services.AddControllers().AddJsonOptions(
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("ConnectionStrings") );
-
 builder.Services.ServicesCollection(builder.Configuration);
 
 var app = builder.Build();

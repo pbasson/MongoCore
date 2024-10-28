@@ -8,6 +8,7 @@ namespace MongoCore.Infrastructure.Repositories;
 public class MongoRepository : IMongoRepository
 {
     private readonly IMongoCollection<NoteDTO> collection;
+
     public MongoRepository(IDatabaseSettings settings)
     {
         collection = new MongoClient(settings.ConnectionURL)

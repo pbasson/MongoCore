@@ -10,9 +10,9 @@ namespace MongoCore.API.Controllers
     {
         private readonly IMongoService mongoService; 
 
-        public MongoController()
+        public MongoController(IMongoService _mongoService)
         {
-            
+            mongoService = _mongoService;
         }
 
         [HttpGet]

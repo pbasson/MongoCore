@@ -7,13 +7,18 @@ namespace MongoCore.Core.Services;
 
 public class MongoService : IMongoService
 {
-    private readonly IMongoRepository _repository = default!;
+    private readonly IMongoRepository repository = default!;
+
+    public MongoService(IMongoRepository _repository)
+    {
+        repository = _repository;
+    }
 
     public async Task<List<NoteDTO>> GetAllRecords()
     {
         try
         {
-            var getModel = await _repository.GetAllRecords();
+            var getModel = await repository.GetAllRecords();
             if (getModel != null && getModel.Any() )
             {
                 return getModel;
@@ -31,7 +36,7 @@ public class MongoService : IMongoService
     {
         try
         {
-            var getModel = await _repository.GetRecordById(id);
+            var getModel = await repository.GetRecordById(id);
             if (getModel != null)
             {
                 return getModel;
