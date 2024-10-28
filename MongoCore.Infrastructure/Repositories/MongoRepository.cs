@@ -11,7 +11,7 @@ public class MongoRepository : IMongoRepository
 
     public MongoRepository(IDatabaseSettings settings)
     {
-        collection = new MongoClient(settings.ConnectionURL)
+        collection = new MongoClient(settings.ConnectionURI)
             .GetDatabase(settings.DatabaseName)
             .GetCollection<NoteDTO>(settings.CollectionName) ;
     }

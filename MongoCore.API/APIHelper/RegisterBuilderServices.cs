@@ -38,10 +38,8 @@ public static class RegisterBuilderServices
         // services.AddSingleton(database);
         services.Configure<DatabaseSettings>(
             configuration.GetSection(nameof(DatabaseSettings)));
-
         services.AddSingleton<IDatabaseSettings>(sp =>
             sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
-
     }
 
     private static void RegisterCoreServices(IServiceCollection services) 
