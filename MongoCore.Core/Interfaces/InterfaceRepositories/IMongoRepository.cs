@@ -7,7 +7,7 @@ public interface IMongoRepository
 {
     Task<List<NoteDTO>> GetAllRecords();
     Task<NoteDTO> GetRecordById(string id);
-    Task<NoteDTO> InsertRecordByModel(NoteDTO model);
-    Task<NoteDTO> UpdateRecordByModel(NoteDTO model);
-    Task<NoteDTO> DeleteRecordById(string id);
+    Task<bool> InsertRecordByModel(NoteDTO model);
+    Task<bool> UpdateRecordByModel(NoteDTO model);
+    Task<bool> DeleteRecordById(string id);
 }

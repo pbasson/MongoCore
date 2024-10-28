@@ -49,18 +49,54 @@ public class MongoService : IMongoService
         }
     }
 
-    public async Task<NoteDTO> InsertRecordByModel(NoteDTO model)
+    public async Task<bool> InsertRecordByModel(NoteDTO model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            if (model != null && !string.IsNullOrEmpty( model.id))
+            {
+                return await InsertRecordByModel(model);
+            }
+            return false;
+        }
+        catch (Exception)
+        {
+            throw;
+        }   
     }
 
-    public async Task<NoteDTO> UpdateRecordByModel(NoteDTO model)
+    public async Task<bool> UpdateRecordByModel(NoteDTO model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            if (model != null && !string.IsNullOrEmpty( model.id))
+            {
+                return await InsertRecordByModel(model);
+            }
+            return false;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 
-    public async Task<NoteDTO> DeleteRecordById(string id)
+    public async Task<bool> DeleteRecordById(string id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var model = await GetRecordById(id);
+            if (model != null && !string.IsNullOrEmpty( model.id))
+            {
+                return await InsertRecordByModel(model);
+            }
+            return false;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
+
+
 }

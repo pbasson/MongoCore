@@ -47,17 +47,53 @@ public class MongoRepository : IMongoRepository
         }
     }
 
-    public Task<NoteDTO> InsertRecordByModel(NoteDTO model)
+    public async Task<bool> InsertRecordByModel(NoteDTO model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            model.CreatedDate = DateTime.Now;
+            collection.InsertOne(model);
+            return true;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 
-    public Task<NoteDTO> UpdateRecordByModel(NoteDTO model)
+    public async Task<bool> UpdateRecordByModel(NoteDTO model)
     {
+        try
+        {
+            if (model != null && !string.IsNullOrEmpty( model.id ))
+            {
+                collection.ReplaceOne(x => x.id == model.id, model);
+                return true; 
+            }
+            return false; 
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
         throw new NotImplementedException();
     }
-    public Task<NoteDTO> DeleteRecordById(string id)
+    public async Task<bool> DeleteRecordById(string id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var model = await GetRecordById(id);
+            if (model != null && !string.IsNullOrEmpty( model.id ))
+            {
+                collection.DeleteOne(x => x.id == model.id);
+                return true; 
+            }
+            return false; 
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 }

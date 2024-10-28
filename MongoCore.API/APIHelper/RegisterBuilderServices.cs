@@ -36,10 +36,8 @@ public static class RegisterBuilderServices
         // var mongoClient = new MongoClient(configuration["ConnectionStrings:ConnectionURL"]);
         // var database = mongoClient.GetDatabase(configuration["ConnectionStrings:DatabaseName"]);
         // services.AddSingleton(database);
-        services.Configure<DatabaseSettings>(
-            configuration.GetSection(nameof(DatabaseSettings)));
-        services.AddSingleton<IDatabaseSettings>(sp =>
-            sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
+        services.Configure<DatabaseSettings>( configuration.GetSection("ConnectionStrings") );
+        services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
     }
 
     private static void RegisterCoreServices(IServiceCollection services) 
