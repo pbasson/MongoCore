@@ -1,0 +1,9 @@
+.git
+.env
+
+*.md
+
+[Bb]in
+[Oo]bj
+
+vs
