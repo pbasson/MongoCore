@@ -13,11 +13,11 @@ public class MongoService : IMongoService
         repository = _repository;
     }
 
-    public async Task<List<NoteDTO>> GetAllRecords()
+    public async Task<List<NoteDTO>> GetAllRecordsAsync()
     {
         try
         {
-            var getModel = await repository.GetAllRecords();
+            var getModel = await repository.GetAllRecordsAsync();
             if (getModel != null && getModel.Any() )
             {
                 return getModel;
@@ -31,11 +31,11 @@ public class MongoService : IMongoService
         }
     }
 
-    public async Task<NoteDTO> GetRecordById(string id)
+    public async Task<NoteDTO> GetRecordByIdAsync(string id)
     {
         try
         {
-            var getModel = await repository.GetRecordById(id);
+            var getModel = await repository.GetRecordByIdAsync(id);
             if (getModel != null)
             {
                 return getModel;
@@ -48,23 +48,13 @@ public class MongoService : IMongoService
         }
     }
 
-    public async Task<bool> InsertRecordByModel(NoteDTO model)
+    public async Task<bool> InsertRecordByModelAsync(NoteDTO model)
     {
         try
         {
-            Console.WriteLine("Test SERVICE-01: FIRST ");
-            var test1 = 0;
             if (model != null)
             {
-                Console.WriteLine($"Test SERVICE-02: ");
-                
-                if (test1 > 10)
-                {
-                    return false;
-                }
-                var test = await InsertRecordByModel(model);
-                Console.WriteLine($"Test SERVICE-03: {test}");
-                return test;
+                return await repository.InsertRecordByModelAsync(model);
             }
             return false;
         }
@@ -74,13 +64,13 @@ public class MongoService : IMongoService
         }   
     }
 
-    public async Task<bool> UpdateRecordByModel(NoteDTO model)
+    public async Task<bool> UpdateRecordByModelAsync(NoteDTO model)
     {
         try
         {
             if (model != null && !string.IsNullOrEmpty( model.Id))
             {
-                return await InsertRecordByModel(model);
+                return await repository.UpdateRecordByModelAsync(model);
             }
             return false;
         }
@@ -90,14 +80,14 @@ public class MongoService : IMongoService
         }
     }
 
-    public async Task<bool> DeleteRecordById(string id)
+    public async Task<bool> DeleteRecordByIdAsync(string id)
     {
         try
         {
-            var model = await GetRecordById(id);
+            var model = await GetRecordByIdAsync(id);
             if (model != null && !string.IsNullOrEmpty( model.Id))
             {
-                return await InsertRecordByModel(model);
+                return await InsertRecordByModelAsync(model);
             }
             return false;
         }

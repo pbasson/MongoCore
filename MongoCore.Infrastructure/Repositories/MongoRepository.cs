@@ -16,7 +16,7 @@ public class MongoRepository : IMongoRepository
             .GetCollection<NoteDTO>(settings.CollectionName) ;
     }
 
-    public async Task<List<NoteDTO>> GetAllRecords()
+    public async Task<List<NoteDTO>> GetAllRecordsAsync()
     {
         try
         {
@@ -34,7 +34,7 @@ public class MongoRepository : IMongoRepository
         }
     }
 
-    public async Task<NoteDTO> GetRecordById(string id)
+    public async Task<NoteDTO> GetRecordByIdAsync(string id)
     {
         try
         {
@@ -47,15 +47,13 @@ public class MongoRepository : IMongoRepository
         }
     }
 
-    public async Task<bool> InsertRecordByModel(NoteDTO model)
+    public async Task<bool> InsertRecordByModelAsync(NoteDTO model)
     {
         try
         {
-            Console.WriteLine("Test REPO-01:");
             model.Id = null; 
             model.CreatedDate = DateTime.Now;
-            collection.InsertOne(model);
-            Console.WriteLine("Test REPO-02:");
+            await collection.InsertOneAsync(model);
 
             return true;
         }
@@ -65,13 +63,13 @@ public class MongoRepository : IMongoRepository
         }
     }
 
-    public async Task<bool> UpdateRecordByModel(NoteDTO model)
+    public async Task<bool> UpdateRecordByModelAsync(NoteDTO model)
     {
         try
         {
             if (model != null && !string.IsNullOrEmpty( model.Id ))
             {
-                collection.ReplaceOne(x => x.Id == model.Id, model);
+                await collection.ReplaceOneAsync(x => x.Id == model.Id, model);
                 return true; 
             }
             return false; 
@@ -83,14 +81,14 @@ public class MongoRepository : IMongoRepository
 
         throw new NotImplementedException();
     }
-    public async Task<bool> DeleteRecordById(string id)
+    public async Task<bool> DeleteRecordByIdAsync(string id)
     {
         try
         {
-            var model = await GetRecordById(id);
+            var model = await GetRecordByIdAsync(id);
             if (model != null && !string.IsNullOrEmpty( model.Id ))
             {
-                collection.DeleteOne(x => x.Id == model.Id);
+                await collection.DeleteOneAsync(x => x.Id == model.Id);
                 return true; 
             }
             return false; 

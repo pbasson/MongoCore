@@ -20,7 +20,7 @@ namespace MongoCore.API.Controllers
         [Route("GetAllRecord")]
         public async Task<ActionResult> GetAllRecord()
         {   
-            var model = await mongoService.GetAllRecords(); 
+            var model = await mongoService.GetAllRecordsAsync(); 
             if(model != null && model.Any() )
             {
                 return Ok( model ); 
@@ -32,7 +32,7 @@ namespace MongoCore.API.Controllers
         [Route("GetRecordById/{id}")]
         public async Task<ActionResult> GetRecordById(string id)
         {   
-            var model = await mongoService.GetRecordById(id); 
+            var model = await mongoService.GetRecordByIdAsync(id); 
             if( model != null )
             {
                 return Ok( model ); 
@@ -44,9 +44,7 @@ namespace MongoCore.API.Controllers
         [Route("InsertRecordByModel")]
         public async Task<ActionResult> InsertRecordByModel([FromBody] NoteDTO model )
         {       
-            Console.WriteLine("Test CONTROLLER-01:");
-            var request = await mongoService.InsertRecordByModel(model);
-            Console.WriteLine($"Test CONTROLLER-02: {nameof(GetRecordById)}");
+            var request = await mongoService.InsertRecordByModelAsync(model);
             if (request)
             {
                 return CreatedAtAction(nameof(GetRecordById), new { id = model.Id }, model);
@@ -59,7 +57,7 @@ namespace MongoCore.API.Controllers
         [Route("UpdateRecordByModel")]
         public async Task<ActionResult> UpdateRecordByModel([FromBody] NoteDTO model )
         {   
-            var request = await mongoService.UpdateRecordByModel(model); 
+            var request = await mongoService.UpdateRecordByModelAsync(model); 
             if( request )
             {
                 return Ok( model ); 
@@ -71,7 +69,7 @@ namespace MongoCore.API.Controllers
         [Route("DeleteRecordById/{id}")]
         public async Task<ActionResult> DeleteRecordById(string id)
         {   
-            var request = await mongoService.DeleteRecordById(id); 
+            var request = await mongoService.DeleteRecordByIdAsync(id); 
             if( request )
             {
                 return Ok( request ); 

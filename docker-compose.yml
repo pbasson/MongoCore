@@ -2,9 +2,9 @@ services:
   mongodb:
     image: mongo:latest
     ports:
-      - 27020:27017 
+      - 27017:27017 
     volumes:
-      - dbdata:/data/db
+      - mongodata:/data/db
     environment: 
       MONGODB_INITDB_ROOT_USERNAME: master
       MONGODB_INITDB_ROOT_PASSWORD: secret
@@ -18,4 +18,4 @@ services:
       - mongodb
       
 volumes:
-  dbdata:
+  mongodata:
