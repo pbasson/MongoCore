@@ -84,10 +84,9 @@ public class MongoService : IMongoService
     {
         try
         {
-            var model = await GetRecordByIdAsync(id);
-            if (model != null && !string.IsNullOrEmpty( model.Id))
+            if ( !string.IsNullOrEmpty( id ) )
             {
-                return await InsertRecordByModelAsync(model);
+                return await repository.DeleteRecordByIdAsync(id);
             }
             return false;
         }
