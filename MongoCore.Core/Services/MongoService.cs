@@ -1,4 +1,3 @@
-using System;
 using MongoCore.Core.DTOs;
 using MongoCore.Core.Interfaces.InterfaceRepositories;
 using MongoCore.Core.Interfaces.InterfaceServices;
@@ -53,9 +52,19 @@ public class MongoService : IMongoService
     {
         try
         {
-            if (model != null && !string.IsNullOrEmpty( model.id))
+            Console.WriteLine("Test SERVICE-01: FIRST ");
+            var test1 = 0;
+            if (model != null)
             {
-                return await InsertRecordByModel(model);
+                Console.WriteLine($"Test SERVICE-02: ");
+                
+                if (test1 > 10)
+                {
+                    return false;
+                }
+                var test = await InsertRecordByModel(model);
+                Console.WriteLine($"Test SERVICE-03: {test}");
+                return test;
             }
             return false;
         }
@@ -69,7 +78,7 @@ public class MongoService : IMongoService
     {
         try
         {
-            if (model != null && !string.IsNullOrEmpty( model.id))
+            if (model != null && !string.IsNullOrEmpty( model.Id))
             {
                 return await InsertRecordByModel(model);
             }
@@ -86,7 +95,7 @@ public class MongoService : IMongoService
         try
         {
             var model = await GetRecordById(id);
-            if (model != null && !string.IsNullOrEmpty( model.id))
+            if (model != null && !string.IsNullOrEmpty( model.Id))
             {
                 return await InsertRecordByModel(model);
             }

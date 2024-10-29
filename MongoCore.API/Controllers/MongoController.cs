@@ -43,12 +43,15 @@ namespace MongoCore.API.Controllers
         [HttpPost]
         [Route("InsertRecordByModel")]
         public async Task<ActionResult> InsertRecordByModel([FromBody] NoteDTO model )
-        {   
-            var request = await mongoService.InsertRecordByModel(model); 
-            if( request )
+        {       
+            Console.WriteLine("Test CONTROLLER-01:");
+            var request = await mongoService.InsertRecordByModel(model);
+            Console.WriteLine($"Test CONTROLLER-02: {nameof(GetRecordById)}");
+            if (request)
             {
-                return Ok( model ); 
-            }   
+                return CreatedAtAction(nameof(GetRecordById), new { id = model.Id }, model);
+            }
+            
             return BadRequest();
         }
 

@@ -6,8 +6,8 @@ public class NoteDTO
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public string id { get; set; }
+    public string? Id { get; set; }
     public string? Name { get; set; }
-    public DateTime CreatedDate { get; set; }
+    public DateTime? CreatedDate { get; set; }
 
 }

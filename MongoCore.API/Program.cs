@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
 using MongoCore.API.APIHelper;
-using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 

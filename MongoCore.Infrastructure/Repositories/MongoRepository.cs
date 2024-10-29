@@ -9,7 +9,7 @@ public class MongoRepository : IMongoRepository
 {
     private readonly IMongoCollection<NoteDTO> collection;
 
-    public MongoRepository(IDatabaseSettings settings)
+    public MongoRepository( IDatabaseSettings settings)
     {
         collection = new MongoClient(settings.ConnectionURI)
             .GetDatabase(settings.DatabaseName)
@@ -38,7 +38,7 @@ public class MongoRepository : IMongoRepository
     {
         try
         {
-            var getCollect = await collection.Find(x => x.id == id).FirstOrDefaultAsync();         
+            var getCollect = await collection.Find(x => x.Id == id).FirstOrDefaultAsync();         
             return getCollect;   
         }
         catch (Exception)
@@ -51,8 +51,12 @@ public class MongoRepository : IMongoRepository
     {
         try
         {
+            Console.WriteLine("Test REPO-01:");
+            model.Id = null; 
             model.CreatedDate = DateTime.Now;
             collection.InsertOne(model);
+            Console.WriteLine("Test REPO-02:");
+
             return true;
         }
         catch (Exception)
@@ -65,9 +69,9 @@ public class MongoRepository : IMongoRepository
     {
         try
         {
-            if (model != null && !string.IsNullOrEmpty( model.id ))
+            if (model != null && !string.IsNullOrEmpty( model.Id ))
             {
-                collection.ReplaceOne(x => x.id == model.id, model);
+                collection.ReplaceOne(x => x.Id == model.Id, model);
                 return true; 
             }
             return false; 
@@ -84,9 +88,9 @@ public class MongoRepository : IMongoRepository
         try
         {
             var model = await GetRecordById(id);
-            if (model != null && !string.IsNullOrEmpty( model.id ))
+            if (model != null && !string.IsNullOrEmpty( model.Id ))
             {
-                collection.DeleteOne(x => x.id == model.id);
+                collection.DeleteOne(x => x.Id == model.Id);
                 return true; 
             }
             return false; 
