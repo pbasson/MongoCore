@@ -7,9 +7,10 @@ vs
 
 [Bb]in
 [Oo]bj
-
+Kubernetes
 
 *.env
 *.md
 *.txt
+*.yml
 

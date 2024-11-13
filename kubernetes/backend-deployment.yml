@@ -14,8 +14,8 @@ spec:
         tier: backend
     spec:
       containers:
-      - name: mongocore-app
-        image: <Image>
+      - name: mongocore-node
+        image: preetbasson/mongocore-api
         resources:
           limits:
             memory: "128Mi"
