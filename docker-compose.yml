@@ -5,9 +5,8 @@ services:
       - 27017:27017 
     volumes:
       - mongodata:/data/db
-    environment: 
-      MONGODB_INITDB_ROOT_USERNAME: master
-      MONGODB_INITDB_ROOT_PASSWORD: secret
+    env_file:
+      - env/development.env
   mongocore.api:
     build: 
       context: .

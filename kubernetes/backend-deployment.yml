@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongocore-app-deployment
+spec:
+  selector:
+    matchLabels:
+      app: mongocore-app
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: mongocore-app
+        tier: backend
+    spec:
+      containers:
+      - name: mongocore-app
+        image: <Image>
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"

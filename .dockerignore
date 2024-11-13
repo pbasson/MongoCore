@@ -1,9 +1,15 @@
 .git
-.env
 
-*.md
+.env
+env
+
+vs
 
 [Bb]in
 [Oo]bj
 
-vs
+
+*.env
+*.md
+*.txt
+
