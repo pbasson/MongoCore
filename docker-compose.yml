@@ -4,11 +4,10 @@ services:
     ports:
       - 27017:27017 
     volumes:
-      - dbdata:/data/db
-    environment: 
-      MONGODB_INITDB_ROOT_USERNAME: master
-      MONGODB_INITDB_ROOT_PASSWORD: secret
-  mongocore:
+      - mongodata:/data/db
+    env_file:
+      - env/development.env
+  mongocore.api:
     build: 
       context: .
       dockerfile: MongoCore.API/Dockerfile
@@ -16,5 +15,6 @@ services:
       - 5076:5076
     depends_on:
       - mongodb
+      
 volumes:
-  dbdata:
+  mongodata:

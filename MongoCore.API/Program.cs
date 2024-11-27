@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
 using MongoCore.API.APIHelper;
-using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +8,6 @@ builder.Services.AddControllers().AddJsonOptions(
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-// builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("ConnectionStrings") );
 
 builder.Services.ServicesCollection(builder.Configuration);
 

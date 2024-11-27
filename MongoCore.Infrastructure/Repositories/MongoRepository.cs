@@ -8,14 +8,15 @@ namespace MongoCore.Infrastructure.Repositories;
 public class MongoRepository : IMongoRepository
 {
     private readonly IMongoCollection<NoteDTO> collection;
-    public MongoRepository(IDatabaseSettings settings)
+
+    public MongoRepository( IDatabaseSettings settings)
     {
-        collection = new MongoClient(settings.ConnectionURL)
+        collection = new MongoClient(settings.ConnectionURI)
             .GetDatabase(settings.DatabaseName)
             .GetCollection<NoteDTO>(settings.CollectionName) ;
     }
 
-    public async Task<List<NoteDTO>> GetAllRecords()
+    public async Task<List<NoteDTO>> GetAllRecordsAsync()
     {
         try
         {
@@ -33,11 +34,11 @@ public class MongoRepository : IMongoRepository
         }
     }
 
-    public async Task<NoteDTO> GetRecordById(string id)
+    public async Task<NoteDTO> GetRecordByIdAsync(string id)
     {
         try
         {
-            var getCollect = await collection.Find(x => x.id == id).FirstOrDefaultAsync();         
+            var getCollect = await collection.Find(x => x.Id == id).FirstOrDefaultAsync();         
             return getCollect;   
         }
         catch (Exception)
@@ -46,17 +47,55 @@ public class MongoRepository : IMongoRepository
         }
     }
 
-    public Task<NoteDTO> InsertRecordByModel(NoteDTO model)
+    public async Task<bool> InsertRecordByModelAsync(NoteDTO model)
     {
-        throw new NotImplementedException();
+        try
+        {
+            model.Id = null; 
+            model.CreatedDate = DateTime.Now;
+            await collection.InsertOneAsync(model);
+
+            return true;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 
-    public Task<NoteDTO> UpdateRecordByModel(NoteDTO model)
+    public async Task<bool> UpdateRecordByModelAsync(NoteDTO model)
     {
+        try
+        {
+            if (model != null && !string.IsNullOrEmpty( model.Id ))
+            {
+                await collection.ReplaceOneAsync(x => x.Id == model.Id, model);
+                return true; 
+            }
+            return false; 
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
         throw new NotImplementedException();
     }
-    public Task<NoteDTO> DeleteRecordById(string id)
+    public async Task<bool> DeleteRecordByIdAsync(string id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var model = await GetRecordByIdAsync(id);
+            if (model != null && !string.IsNullOrEmpty( model.Id ))
+            {
+                await collection.DeleteOneAsync(x => x.Id == model.Id);
+                return true; 
+            }
+            return false; 
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 }

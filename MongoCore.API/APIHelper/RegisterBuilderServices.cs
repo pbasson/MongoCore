@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using MongoCore.Core.Interfaces.InterfaceRepositories;
 using MongoCore.Core.Interfaces.InterfaceServices;
 using MongoCore.Core.Services;
@@ -13,6 +14,11 @@ public static class RegisterBuilderServices
         ArgumentNullException.ThrowIfNull(services);
         ArgumentNullException.ThrowIfNull(configuration);
 
+        #region Register Database
+        SetDatabase(services, configuration);
+        //services.Configure<DatabaseSettings>(configuration.GetSection("ConnectionStrings") );
+        #endregion
+
         #region Register Core Services
         RegisterCoreServices(services);
         #endregion     
@@ -21,13 +27,17 @@ public static class RegisterBuilderServices
         RegisterCoreRepositories(services);
         #endregion
     
-        #region Register Database
-        SetDatabase(services, configuration);
-        //services.Configure<DatabaseSettings>(configuration.GetSection("ConnectionStrings") );
-
-        #endregion
 
         return services;
+    }
+    
+    private static void SetDatabase(IServiceCollection services, IConfiguration configuration)
+    {
+        // var mongoClient = new MongoClient(configuration["ConnectionStrings:ConnectionURL"]);
+        // var database = mongoClient.GetDatabase(configuration["ConnectionStrings:DatabaseName"]);
+        // services.AddSingleton(database);
+        services.Configure<DatabaseSettings>( configuration.GetSection("ConnectionStrings") );
+        services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
     }
 
     private static void RegisterCoreServices(IServiceCollection services) 
@@ -40,10 +50,4 @@ public static class RegisterBuilderServices
         services.AddScoped<IMongoRepository, MongoRepository>();
     }
 
-    private static void SetDatabase(IServiceCollection services, IConfiguration configuration)
-    {
-        var mongoClient = new MongoClient(configuration["ConnectionStrings:ConnectionURL"]);
-        var database = mongoClient.GetDatabase(configuration["ConnectionStrings:DatabaseName"]);
-        services.AddSingleton<IMongoDatabase>(database);
-    }
 }

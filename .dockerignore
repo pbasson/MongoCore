@@ -1,9 +1,16 @@
 .git
-.env
 
-*.md
+.env
+env
+
+vs
 
 [Bb]in
 [Oo]bj
+Kubernetes
 
-vs
+*.env
+*.md
+*.txt
+*.yml
+
