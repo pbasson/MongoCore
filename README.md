@@ -3,7 +3,7 @@
 -----------
 ## Overview
 
-ASP.NET Core REST API connected to MySQL Database.
+ASP.NET Core REST API integrated with MongoDb database.
 
 -----------
 ## Features
